@@ -1,0 +1,20 @@
+<li class="central_title">
+          <h2>{{name}}</h2>
+        </li>
+        <li class="flex_list">
+          <div class="left_block">
+            <p class="info_text">Capital: {{capital}}</p>
+            <p class="info_text">Population: {{population}}</p>
+            <div>
+              <p class="info_text">Languages:</p>
+              <ul class="languages_list">
+                {{#each languages}}
+                <li>{{this.name}}</li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+          <div class="right_block">
+            <img class="country_flag" src={{flag}} alt="">
+          </div>
+          </li>
