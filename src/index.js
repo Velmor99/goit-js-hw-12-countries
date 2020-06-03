@@ -1,7 +1,6 @@
 import firstResult from './templates/index.hbs';
 import secondResult from './templates/alternative.hbs';
-var _ = require('lodash');
-var debounce = require('lodash.debounce');
+import debounce from "lodash.debounce"
 import { alert, defaultModules } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
@@ -12,17 +11,22 @@ import './styles.css';
 const search = document.querySelector('#search_input');
 const baseUrl = 'https://restcountries.eu/rest/v2/name/';
 const resultList = document.querySelector('.result_list');
+const notResult = '<li class="empty">>Result not found :(</li>'
 
 search.addEventListener(
 	'input',
 	debounce((event) => {
-		resApi(event.target.value, renderContent);
-	}),
-	500
+    if(!event.target.value) {
+      resultList.innerHTML = "";
+      return
+    } else  {
+      resApi(event.target.value, renderContent, errorAlert (notResult));
+    }
+	}, 500)
 );
 
 function renderContent(d) {
-	if (d.length === 1) {
+  if (d.length === 1) {
 		const murcup = d.map((item) => firstResult(item)).join('');
 		resultList.innerHTML = murcup;
 	} else if (d.length < 10) {
@@ -31,5 +35,9 @@ function renderContent(d) {
 	} else if (d.length === 0 || d.length > 10) {
 		resultList.innerHTML = '';
 		alert('Too many matches found. Please enter a more specific query!');
-	}
+  }
 }
+
+  function errorAlert (result) {
+    resultList.innerHTML = result;
+  }
